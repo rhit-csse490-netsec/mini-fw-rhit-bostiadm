@@ -1,0 +1,13 @@
+#!/usr/sbin/nft -f
+
+# create the table netsec
+#   note that we don't need to use nft here, simple start the command.
+add table ip firewall_tbl
+
+# create our first chain for incoming traffic
+add chain firewall_tbl firewall_all { type filter hook forward priority 0 ; policy drop ; comment "real" ; }
+
+# add our first rule
+add rule firewall_tbl firewall_all tcp dport 22 counter accept
+add rule firewall_tbl firewall_all tcp dport 23 counter accept
+add rule firewall_tbl firewall_all tcp dport 80 counter accept
